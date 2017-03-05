@@ -21,7 +21,7 @@ Package: python-sphinxcontrib.varlinks
 Architecture: all
 Pre-Depends: dpkg (>= 1.15.6~)
 Depends: ${misc:Depends}, ${python:Depends}
-Description: Support for substitutions in hyperlinks
+Description: Use substitutions in Sphinx hyperlinks
  sphinxcontrib.varlinks is an extension for Sphinx that makes it
  possible to use substitutions in hyperlinks, thus enabling the use
  of variable links.
@@ -32,7 +32,7 @@ Package: python3-sphinxcontrib.varlinks
 Architecture: all
 Pre-Depends: dpkg (>= 1.15.6~)
 Depends: ${misc:Depends}, ${python3:Depends}
-Description: Support for substitutions in hyperlinks
+Description: Use substitutions in Sphinx hyperlinks
  sphinxcontrib.varlinks is an extension for Sphinx that makes it
  possible to use substitutions in hyperlinks, thus enabling the use
  of variable links.

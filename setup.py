@@ -15,7 +15,7 @@ setup(
     license='BSD',
     author='Francois Poirotte',
     author_email='clicky@erebot.net',
-    description='Support for substitutions in hyperlinks',
+    description='Use substitutions in Sphinx hyperlinks',
     long_description=long_desc,
     zip_safe=False,
     classifiers=[
