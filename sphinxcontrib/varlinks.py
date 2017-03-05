@@ -37,7 +37,8 @@ class LinkSubstitutionPhase1(Transform):
                 continue
 
             substitutions = []
-            matches = subst_re.findall(link['refuri']) + subst_re.findall(link['name'])
+            matches = subst_re.findall(link['refuri']) + \
+                      subst_re.findall(link['name'])
             for subref_text in matches:
                 if subref_text in substitutions:
                     continue
@@ -49,7 +50,8 @@ class LinkSubstitutionPhase1(Transform):
 
             # Build a map of substitutions names to child index
             # (minus one since the actual link label is in link[0]).
-            link['substitutions'] = dict(zip(substitutions, range(len(substitutions))))
+            link['substitutions'] = \
+                dict(zip(substitutions, range(len(substitutions))))
 
 
 class LinkSubstitutionPhase2(Transform):
@@ -77,6 +79,7 @@ class LinkSubstitutionPhase2(Transform):
             link['refuri'] = subst_re.sub(replacer, link['refuri'])
             link.clear()
             link.append(nodes.Text(content))
+
 
 def setup(app):
     app.add_transform(LinkSubstitutionPhase1)

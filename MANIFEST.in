@@ -1,7 +1,10 @@
 include README.rst
 include LICENSE
 include requirements.txt
+include tox.ini
 recursive-include test *
 global-exclude *.pyc
 exclude .gitignore
 exclude .travis.yml
+exclude Makefile
+recursive-exclude pkg *
