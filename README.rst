@@ -16,10 +16,10 @@ Replace ``python`` with ``python3`` if you plan to use the Python 3 version
 of the extension.
 
 
-Installation
-------------
+Installation from sources
+-------------------------
 
-Installing this extension is done in just a few steps:
+Installing this extension from the sources is done in just a few steps:
 
 -   Download the latest version of the code from GitHub:
     https://github.com/fpoirotte/sphinxcontrib-varlinks/archive/master.tar.gz
@@ -34,23 +34,28 @@ Installing this extension is done in just a few steps:
         root@localhost:~# # For Python 3
         root@localhost:~# python3 setup.py install
 
-Please note that it is also possible to build a Debian package
+Please note that it is also possible to build a Debian/Fedora package
 for the extension (see below), which makes it easier to uninstall
 the extension afterwards.
 
 
-Debian package
---------------
+Installation using packages
+---------------------------
 
 If like me you prefer installing softwares from packages instead of sources
 to ease maintenance, here's a quick guide on how to build a package for
-this extension on Debian testing:
+this extension.
+
+Debian
+~~~~~~
+
+The following procedure has been tested on Debian testing:
 
 -   Make sure the dependencies are installed beforehand:
 
     ..  sourcecode:: bash
 
-        clicky@me:~$ sudo apt-get install coreutils rename make tar dpkg-dev  debhelper dh-python \
+        root@localhost:~# apt-get install coreutils rename make tar dpkg-dev  debhelper dh-python \
             python-all python-setuptools python-sphinx python3-all python3-setuptools python3-sphinx
 
 -   Download the latest version of the code from GitHub:
@@ -60,21 +65,54 @@ this extension on Debian testing:
 
 -   Build the package by running::
 
-        make deb
+        clicky@localhost:~$ make deb
 
 -   Run the following command to install the Python 2 module::
 
-        sudo dpkg -i dist/python-sphinxcontrib.varlinks_*_all.deb
+        root@localhost:~# dpkg -i dist/python-sphinxcontrib.varlinks_*_all.deb
 
 -   If you want to use the extension with Python 3, also run::
 
-        sudo dpkg -i dist/python3-sphinxcontrib.varlinks_*_all.deb
+        root@localhost:~# dpkg -i dist/python3-sphinxcontrib.varlinks_*_all.deb
 
 
-Other .deb-based distributions and older Debian releases may require some
-tweaking in the `packaging directory`__ for a package to be built correctly.
+Other .deb-based distributions and older Debian releases may require some tweaking.
 
-.. __: https://github.com/fpoirotte/sphinxcontrib-varlinks/blob/master/pkg/debian/
+
+Fedora
+~~~~~~
+
+The following (untested) procedure should work for Fedora Core 24 and later:
+
+-   Make sure the dependencies are installed beforehand:
+
+    ..  sourcecode:: bash
+
+        root@localhost:~# # If your distribution only supports Python 2
+        root@localhost:~# yum install python2-devel python2-setuptools python2-sphinx python2-sphinx-testing
+        root@localhost:~#
+        root@localhost:~# # If your distribution also supports Python 3
+        root@localhost:~# yum install python3-devel python3-setuptools python3-sphinx python3-sphinx-testing
+
+-   Download the latest version of the code from GitHub:
+    https://github.com/fpoirotte/sphinxcontrib-varlinks/archive/master.tar.gz
+
+-   Extract the tarball and go to the newly created directory.
+
+-   Build the package by running::
+
+        clicky@localhost:~$ make rpm
+
+-   Run the following command to install the Python 2 module::
+
+        root@localhost:~# yum install dist/RPMS/noarch/python2-sphinxcontrib-varlinks-*.rpm
+
+-   If you want to use the extension with Python 3, also run::
+
+        root@localhost:~# yum install dist/RPMS/noarch/python3-sphinxcontrib-varlinks-*.rpm
+
+
+Other .rpm-based distributions and older Fedora releases may require some tweaking.
 
 
 How to use
