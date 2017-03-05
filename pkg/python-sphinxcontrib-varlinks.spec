@@ -3,11 +3,17 @@
 %endif
 
 %global srcname sphinxcontrib-varlinks
+%global summary Sphinx extension that supports substitutions in hyperlinks
+%global common_desc \
+This package contains a Sphinx extension that adds support\
+for substitutions in hyperlinks, thus making it possible\
+to create variable/dynamic links.
+
 
 Name:       python-%{srcname}
 Version:    0.1.0
 Release:    1%{?dist}
-Summary:    Sphinx extension that adds support for substitutions in hyperlinks
+Summary:    %{summary}
 
 License:    BSD
 URL:        https://github.com/fpoirotte/sphinxcontrib-varlinks
@@ -26,24 +32,19 @@ BuildRequires: python3-sphinx
 BuildRequires: python3-sphinx-testing
 %endif
 
-%global common_desc \
-This package contains a Sphinx extension that adds support\
-for substitutions in hyperlinks, thus making it possible\
-to create variable/dynamic links.
-
 %description
 %common_desc
 
 %package -n    python2-%{srcname}
-Summary:       Sphinx extension that supports substitutions in hyperlinks
+Summary:       %{summary}
 %{?python_provide:%python_provide python2-%{srcname}}
 
 %description -n python2-%{srcname}
 %common_desc
 
 %if 0%{?with_python3}
-%package -n python3-%{srcname}
-Summary:       Sphinx extension that supports substitutions in hyperlinks
+%package -n    python3-%{srcname}
+Summary:       %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -86,7 +87,9 @@ popd
 
 
 %check
-
+# The project does not have tests for now
+#%{__python2} setup.py test
+#%{__python3} setup.py test
 
 %files -n python2-%{srcname}
 %license %{srcname}-%{version}/LICENSE
