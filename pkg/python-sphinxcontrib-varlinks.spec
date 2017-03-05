@@ -87,9 +87,19 @@ popd
 
 
 %check
-# The project does not have tests for now
-#%{__python2} setup.py test
-#%{__python3} setup.py test
+# Test the python 2 build
+pushd %{srcname}-%{version}
+PYTHONPATH=$PWD nosetests-%{python2_version} -v
+popd
+
+%if 0%{?with_python3}
+# Test the python 3 build
+export LANG=en_US.UTF-8
+pushd python3-%{srcname}-%{version}
+PYTHONPATH=$PWD nosetests-%{python3_version} -v
+popd
+%endif
+
 
 %files -n python2-%{srcname}
 %license %{srcname}-%{version}/LICENSE

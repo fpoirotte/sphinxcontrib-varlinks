@@ -7,9 +7,11 @@ Build-Depends: debhelper (>= 9),
                python-all (>= 2.6.6-3~),
                python-setuptools,
                python-sphinx,
+               python-sphinx-testing,
                python3-all,
                python3-setuptools,
-               python3-sphinx
+               python3-sphinx,
+               python3-sphinx-testing
 Standards-Version: 3.9.6
 Homepage: https://github.com/fpoirotte/sphinxcontrib-varlinks
 Vcs-Git: git://github.com/fpoirotte/sphinxcontrib-varlinks.git
@@ -21,6 +23,7 @@ Package: python-sphinxcontrib.varlinks
 Architecture: all
 Pre-Depends: dpkg (>= 1.15.6~)
 Depends: ${misc:Depends}, ${python:Depends}
+Testsuite: autopkgtest-pkg-python
 Description: Use substitutions in Sphinx hyperlinks
  sphinxcontrib.varlinks is an extension for Sphinx that makes it
  possible to use substitutions in hyperlinks, thus enabling the use
@@ -32,6 +35,7 @@ Package: python3-sphinxcontrib.varlinks
 Architecture: all
 Pre-Depends: dpkg (>= 1.15.6~)
 Depends: ${misc:Depends}, ${python3:Depends}
+Testsuite: autopkgtest-pkg-python
 Description: Use substitutions in Sphinx hyperlinks
  sphinxcontrib.varlinks is an extension for Sphinx that makes it
  possible to use substitutions in hyperlinks, thus enabling the use

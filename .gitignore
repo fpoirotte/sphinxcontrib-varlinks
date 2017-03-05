@@ -4,3 +4,6 @@
 *.egg-info/
 *.pyc
 *.pyo
+/.tox/
+/.coverage
+/cover/

@@ -49,7 +49,7 @@ class LinkSubstitutionPhase1(Transform):
 
             # Build a map of substitutions names to child index
             # (minus one since the actual link label is in link[0]).
-            link['substitutions'] = dict(zip(substitutions, xrange(len(substitutions))))
+            link['substitutions'] = dict(zip(substitutions, range(len(substitutions))))
 
 
 class LinkSubstitutionPhase2(Transform):
