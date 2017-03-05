@@ -38,7 +38,7 @@ class LinkSubstitutionPhase1(Transform):
 
             substitutions = []
             matches = subst_re.findall(link['refuri']) + \
-                      subst_re.findall(link['name'])
+                subst_re.findall(link['name'])
             for subref_text in matches:
                 if subref_text in substitutions:
                     continue

@@ -6,17 +6,18 @@
 """
 
 import sys
+from sphinx_testing.util import path, with_app
 if sys.version_info < (2, 7):
     import unittest2 as unittest
 else:
     import unittest
 
-from sphinx_testing.util import path, with_app
-
 
 class TestExtension(unittest.TestCase):
     def test_embedded(self):
-        @with_app(buildername='html', srcdir=path(__file__).dirname() / 'embedded', warningiserror=True)
+        srcdir = path(__file__).dirname() / 'embedded'
+
+        @with_app(buildername='html', srcdir=srcdir, warningiserror=True)
         def execute(app, status, warning):
             app.build()
             res = '<a class="reference external" ' \
