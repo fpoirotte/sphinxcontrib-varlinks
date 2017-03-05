@@ -80,7 +80,7 @@ That's it! You may now use substitutions in hyperlinks like this:
 
 ..  sourcecode::
 
-    This released can be downloaded `here <http://example.com/download#|release|>`_
+    This release can be downloaded `here <http://example.com/download#|release|>`_
 
 Please note that you may use substitutions in both the hyperlink's label
 and target.
