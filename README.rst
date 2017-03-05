@@ -46,34 +46,29 @@ If like me you prefer installing softwares from packages instead of sources
 to ease maintenance, here's a quick guide on how to build a package for
 this extension on Debian testing:
 
--   Make sure the following packages are installed beforehand:
+-   Make sure the dependencies are installed beforehand:
 
-    -   coreutils
-    -   rename
-    -   make
-    -   tar
-    -   dpkg-dev
-    -   debhelper (>= 9)
-    -   dh-python
-    -   python-all (>= 2.6.6)
-    -   python-setuptools
-    -   python-sphinx
-    -   python3-all
-    -   python3-setuptools
-    -   python3-sphinx
+    ..  sourcecode:: bash
+
+        clicky@me:~$ sudo apt-get install coreutils rename make tar dpkg-dev  debhelper dh-python \
+            python-all python-setuptools python-sphinx python3-all python3-setuptools python3-sphinx
 
 -   Download the latest version of the code from GitHub:
     https://github.com/fpoirotte/sphinxcontrib-varlinks/archive/master.tar.gz
 
 -   Extract the tarball and go to the newly created directory.
 
--   Build the package by running ``make deb``.
+-   Build the package by running::
 
--   Run the following command to install the Python 2 module:
-    ``sudo dpkg -i dist/python-sphinxcontrib.varlinks_*_all.deb``
+        make deb
 
--   If you want to use the extension with Python 3, also run:
-    ``sudo dpkg -i dist/python3-sphinxcontrib.varlinks_*_all.deb``
+-   Run the following command to install the Python 2 module::
+
+        sudo dpkg -i dist/python-sphinxcontrib.varlinks_*_all.deb
+
+-   If you want to use the extension with Python 3, also run::
+
+        sudo dpkg -i dist/python3-sphinxcontrib.varlinks_*_all.deb
 
 
 Other .deb-based distributions and older Debian releases may require some
