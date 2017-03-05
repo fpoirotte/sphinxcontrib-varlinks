@@ -3,6 +3,19 @@ sphinxcontrib-varlinks
 
 Provide support for substitutions in hyperlinks
 
+Prerequisites
+-------------
+
+The following packages must be installed on your machine for this extension
+to work:
+
+-   python (>= 2.6).
+-   python-sphinx (1.4.9 or later)
+
+Replace ``python`` with ``python3`` if you plan to use the Python 3 version
+of the extension.
+
+
 Installation
 ------------
 
@@ -15,7 +28,11 @@ Installing this extension is done in just a few steps:
 
 -   Then, install the extension from the machine's root account::
 
+        root@localhost:~# # For Python 2
         root@localhost:~# python setup.py install
+        root@localhost:~#
+        root@localhost:~# # For Python 3
+        root@localhost:~# python3 setup.py install
 
 Please note that it is also possible to build a Debian package
 for the extension (see below), which makes it easier to uninstall
@@ -31,39 +48,38 @@ this extension on Debian testing:
 
 -   Make sure the following packages are installed beforehand:
 
-    -   debhelper
-    -   python-all
+    -   coreutils
+    -   rename
+    -   make
+    -   tar
+    -   dpkg-dev
+    -   debhelper (>= 9)
+    -   dh-python
+    -   python-all (>= 2.6.6)
     -   python-setuptools
+    -   python-sphinx
+    -   python3-all
+    -   python3-setuptools
+    -   python3-sphinx
 
 -   Download the latest version of the code from GitHub:
     https://github.com/fpoirotte/sphinxcontrib-varlinks/archive/master.tar.gz
 
--   Rename the tarball into: ``sphinxcontrib-varlinks_<version>.orig.tar.gz``,
-    where ``<version>`` matches the version string defined in `setup.py`__.
-
 -   Extract the tarball and go to the newly created directory.
 
--   Build the package by running ``dpkg-buildpackage``.
+-   Build the package by running ``make deb``.
 
--   Install the newly created package with
-    ``sudo dpkg -i ../python-sphinxcontrib.varlinks_*_all.deb``
+-   Run the following command to install the Python 2 module:
+    ``sudo dpkg -i dist/python-sphinxcontrib.varlinks_*_all.deb``
+
+-   If you want to use the extension with Python 3, also run:
+    ``sudo dpkg -i dist/python3-sphinxcontrib.varlinks_*_all.deb``
+
 
 Other .deb-based distributions and older Debian releases may require some
 tweaking in the `packaging directory`__ for a package to be built correctly.
 
-.. __: https://github.com/fpoirotte/sphinxcontrib-varlinks/blob/master/setup.py
-.. __: https://github.com/fpoirotte/sphinxcontrib-varlinks/blob/master/debian/
-
-
-Prerequisites
--------------
-
-The following packages must be installed on your machine for this extension
-to work:
-
--   python (2.6.x or 2.7.x).
-    The code has not been tested under Python 3.x.y yet.
--   python-sphinx (1.0.7 or later)
+.. __: https://github.com/fpoirotte/sphinxcontrib-varlinks/blob/master/pkg/debian/
 
 
 How to use

@@ -1,13 +1,6 @@
+.*.swp
 /dist/
 /build/
-/debian/tmp/
 *.egg-info/
 *.pyc
 *.pyo
-
-/debian/python-sphinxcontrib.varlinks/
-/debian/debhelper-build-stamp
-debian/files
-debian/*.debhelper.log
-debian/*.substvars
-

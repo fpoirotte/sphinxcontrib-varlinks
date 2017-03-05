@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+#export DH_VERBOSE=1
+export PYTHONWARNINGS=d
+export PYBUILD_NAME=sphinxcontrib.varlinks
+
+%:
+	dh $@ --with python2,python3 --buildsystem=pybuild

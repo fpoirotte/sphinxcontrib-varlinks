@@ -1,13 +1,5 @@
 # -*- coding: utf-8 -*-
-try:
-    from setuptools import setup, find_packages
-except ImportError:
-    import distribute_setup
-    distribute_setup.use_setuptools()
-    from setuptools import setup, find_packages
-
-import os
-import sys
+from setuptools import setup, find_packages
 
 long_desc = '''
 sphinxcontrib.varlinks is an extension for Sphinx that makes it
@@ -28,23 +20,24 @@ setup(
     zip_safe=False,
     classifiers=[
         'Development Status :: 4 - Beta',
-        'Environment :: Console',
-        'Environment :: Web Environment',
+        'Environment :: Plugins',
+        'Framework :: Sphinx :: Extension',
         'Intended Audience :: Developers',
-        'Intended Audience :: Education',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
         'Topic :: Documentation',
-        'Topic :: Text Processing',
-        'Topic :: Utilities',
+        'Topic :: Documentation :: Sphinx',
+        'Topic :: Software Development :: Documentation',
     ],
+    keywords="sphinx hyperlinks substitutions",
     platforms='any',
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'Sphinx>=1.0.7',
+        'Sphinx>=1.4.9',
     ],
-    use_2to3=True,
+    namespace_packages=['sphinxcontrib'],
 )

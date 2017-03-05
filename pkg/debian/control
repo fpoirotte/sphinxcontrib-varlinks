@@ -1,0 +1,40 @@
+Source: sphinxcontrib-varlinks
+Section: python
+Priority: optional
+Maintainer: Francois Poirotte <clicky@erebot.net>
+Build-Depends: debhelper (>= 9),
+               dh-python,
+               python-all (>= 2.6.6-3~),
+               python-setuptools,
+               python-sphinx,
+               python3-all,
+               python3-setuptools,
+               python3-sphinx
+Standards-Version: 3.9.6
+Homepage: https://github.com/fpoirotte/sphinxcontrib-varlinks
+Vcs-Git: git://github.com/fpoirotte/sphinxcontrib-varlinks.git
+Vcs-Browser: https://github.com/fpoirotte/sphinxcontrib-varlinks
+X-Python-Version: >= 2.6
+X-Python3-Version: >= 3.2
+
+Package: python-sphinxcontrib.varlinks
+Architecture: all
+Pre-Depends: dpkg (>= 1.15.6~)
+Depends: ${misc:Depends}, ${python:Depends}
+Description: Support for substitutions in hyperlinks
+ sphinxcontrib.varlinks is an extension for Sphinx that makes it
+ possible to use substitutions in hyperlinks, thus enabling the use
+ of variable links.
+ .
+ This package installs the library for Python 2.
+
+Package: python3-sphinxcontrib.varlinks
+Architecture: all
+Pre-Depends: dpkg (>= 1.15.6~)
+Depends: ${misc:Depends}, ${python3:Depends}
+Description: Support for substitutions in hyperlinks
+ sphinxcontrib.varlinks is an extension for Sphinx that makes it
+ possible to use substitutions in hyperlinks, thus enabling the use
+ of variable links.
+ .
+ This package installs the library for Python 3.
