@@ -9,13 +9,13 @@ of variable links.
 
 setup(
     name='sphinxcontrib-varlinks',
-    version='0.1.0',
+    version='0.1.1',
     url='https://github.com/fpoirotte/sphinxcontrib-varlinks',
     download_url='https://github.com/fpoirotte/sphinxcontrib-varlinks',
     license='BSD',
     author='Francois Poirotte',
     author_email='clicky@erebot.net',
-    description='Use substitutions in Sphinx hyperlinks',
+    description='Support substitutions in Sphinx hyperlinks',
     long_description=long_desc,
     zip_safe=False,
     classifiers=[

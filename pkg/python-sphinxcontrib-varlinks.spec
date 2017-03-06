@@ -11,7 +11,7 @@ to create variable/dynamic links.
 
 
 Name:       python-%{srcname}
-Version:    0.1.0
+Version:    0.1.1
 Release:    1%{?dist}
 Summary:    %{summary}
 
@@ -114,6 +114,6 @@ popd
 %endif
 
 %changelog
-* Sun Mar 05 2017 François Poirotte <clicky@erebot.net> - 0.1.0-1
+* Mon Mar 06 2017 François Poirotte <clicky@erebot.net> - 0.1.1-1
 - Initial packaging
 
