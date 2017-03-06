@@ -23,7 +23,6 @@ Package: python-sphinxcontrib.varlinks
 Architecture: all
 Pre-Depends: dpkg (>= 1.15.6~)
 Depends: ${misc:Depends}, ${python:Depends}
-Testsuite: autopkgtest-pkg-python
 Description: Use substitutions in Sphinx hyperlinks
  sphinxcontrib.varlinks is an extension for Sphinx that makes it
  possible to use substitutions in hyperlinks, thus enabling the use
@@ -35,7 +34,6 @@ Package: python3-sphinxcontrib.varlinks
 Architecture: all
 Pre-Depends: dpkg (>= 1.15.6~)
 Depends: ${misc:Depends}, ${python3:Depends}
-Testsuite: autopkgtest-pkg-python
 Description: Use substitutions in Sphinx hyperlinks
  sphinxcontrib.varlinks is an extension for Sphinx that makes it
  possible to use substitutions in hyperlinks, thus enabling the use
