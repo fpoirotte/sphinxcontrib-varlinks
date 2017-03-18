@@ -8,6 +8,11 @@ python:
   - "3.4"
   - "3.5"
 
+env:
+  - SPHINX=1.3.6
+  - SPHINX=1.4.9
+  - SPHINX=1.5.3
+
 notifications:
     email: false
     irc: "irc.iiens.net#Clicky"
@@ -18,8 +23,10 @@ branches:
 
 install:
   - "pip install sphinx-testing" # required for tests
+  - "pip install Sphinx=$SPHINX"
   - "pip install ."
   - "if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pip install coveralls check-manifest flake8; fi"
+
 script:
   - "if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then check-manifest; fi"
   - "if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then flake8; fi"
@@ -27,6 +34,7 @@ script:
   - "if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then coverage run --source=sphinxcontrib.varlinks `type -p nosetests`; fi"
   - "if [[ $TRAVIS_PYTHON_VERSION != '2.7' ]]; then nosetests; fi"
   - "popd"
+
 after_success:
   - "pushd test"
   - "if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then coveralls; fi"
