@@ -3,7 +3,7 @@ VERSION := 0.0.0
 
 all: install
 
-install sdist bdist_wheel:
+install sdist bdist_wheel test:
 	python setup.py $@
 
 egg_info:
@@ -24,5 +24,7 @@ rpm: sdist
 	    --define '_sourcedir ./dist'          \
 	    --define '_builddir ./build/BUILD'    \
 	    --define '_buildrootdir ./build/BUILDROOT'
+
+.PHONY: all install dist sdist bdist_wheel test deb rpm
 
 # ex:set ts=4 noet:
