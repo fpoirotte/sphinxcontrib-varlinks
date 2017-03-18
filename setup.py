@@ -39,6 +39,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Sphinx>=1.3.6',
+        'Sphinx<=1.6',
     ],
     test_suite='nose.collector',
     namespace_packages=['sphinxcontrib'],
