@@ -7,9 +7,11 @@ possible to use substitutions in hyperlinks, thus enabling the use
 of variable links.
 '''
 
+from sphinxcontrib import varlinks
+
 setup(
     name='sphinxcontrib-varlinks',
-    version='0.1.1',
+    version=varlinks.__version__,
     url='https://github.com/fpoirotte/sphinxcontrib-varlinks',
     download_url='https://github.com/fpoirotte/sphinxcontrib-varlinks',
     license='BSD',

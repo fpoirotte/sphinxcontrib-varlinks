@@ -18,6 +18,8 @@ from docutils.transforms import Transform
 
 __all__ = ['setup']
 
+__version__ = '0.1.1'
+
 
 class LinkSubstitutionPhase1(Transform):
     # This transformation is applied very early.
@@ -27,6 +29,11 @@ class LinkSubstitutionPhase1(Transform):
     subst_pattern = r'\|([^|]+)\|'
 
     def apply(self):
+        """Create substitution nodes for hyperlinks"""
+        # In this phase, we look for hyperlinks (references nodes)
+        # that contain substitutions (of the form "|foo|").
+        # We then add actual "substitution"s nodes to those references,
+        # so that they can be replaced by the substitution processor.
         subst_re = re.compile(self.subst_pattern)
 
         for link in self.document.traverse(nodes.reference):
@@ -36,7 +43,10 @@ class LinkSubstitutionPhase1(Transform):
             if '|' not in link['refuri'] and '|' not in link['name']:
                 continue
 
+            # This list acts as a cache so that only one substitution node
+            # is added as a child for each substitution name.
             substitutions = []
+
             matches = subst_re.findall(link['refuri']) + \
                 subst_re.findall(link['name'])
             for subref_text in matches:
@@ -48,7 +58,7 @@ class LinkSubstitutionPhase1(Transform):
                 link.append(subref_node)
                 self.document.note_substitution_ref(subref_node, subref_text)
 
-            # Build a map of substitutions names to child index
+            # Build a map of substitutions names to child indices
             # (minus one since the actual link label is in link[0]).
             link['substitutions'] = \
                 dict(zip(substitutions, range(len(substitutions))))
@@ -67,6 +77,10 @@ class LinkSubstitutionPhase2(Transform):
         return inner
 
     def apply(self):
+        """Replace substitutions in hyperlinks with their contents"""
+        # In this phase, we replace the substitutions in hyperlinks
+        # with the contents of the sub-nodes introduced during phase 1.
+        # We also remove those temporary nodes from the tree.
         subst_re = re.compile(self.subst_pattern)
 
         for link in self.document.traverse(nodes.reference):
