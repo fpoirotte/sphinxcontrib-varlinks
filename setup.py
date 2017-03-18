@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
+from sphinxcontrib import varlinks
 
 long_desc = '''
 sphinxcontrib.varlinks is an extension for Sphinx that makes it
 possible to use substitutions in hyperlinks, thus enabling the use
 of variable links.
 '''
-
-from sphinxcontrib import varlinks
 
 setup(
     name='sphinxcontrib-varlinks',
