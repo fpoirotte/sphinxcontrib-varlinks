@@ -21,12 +21,17 @@ __all__ = ['setup']
 __version__ = '0.1.1'
 
 
-class LinkSubstitutionPhase1(Transform):
+class LinkSubstitutionTransform(Transform):
+    subst_pattern = r'\|([^|]+)\|'
+
+    def _maybe_hyperlink(self, node):
+        return isinstance(node, (nodes.reference, nodes.target))
+
+
+class LinkSubstitutionPhase1(LinkSubstitutionTransform):
     # This transformation is applied very early.
     # At a minimum, it must be run before substitutions are applied.
     default_priority = 10
-
-    subst_pattern = r'\|([^|]+)\|'
 
     def apply(self):
         """Create substitution nodes for hyperlinks"""
@@ -36,11 +41,12 @@ class LinkSubstitutionPhase1(Transform):
         # so that they can be replaced by the substitution processor.
         subst_re = re.compile(self.subst_pattern)
 
-        for link in self.document.traverse(nodes.reference):
+        for link in self.document.traverse(self._maybe_hyperlink):
             if 'refuri' not in link:
                 continue
 
-            if '|' not in link['refuri'] and '|' not in link['name']:
+            # Note: "target" nodes do not have a "name" attribute.
+            if '|' not in link['refuri'] and '|' not in link.get('name', ''):
                 continue
 
             # This list acts as a cache so that only one substitution node
@@ -48,7 +54,7 @@ class LinkSubstitutionPhase1(Transform):
             substitutions = []
 
             matches = subst_re.findall(link['refuri']) + \
-                subst_re.findall(link['name'])
+                subst_re.findall(link.get('name', ''))
             for subref_text in matches:
                 if subref_text in substitutions:
                     continue
@@ -60,20 +66,18 @@ class LinkSubstitutionPhase1(Transform):
 
             # Build a map of substitutions names to child indices
             # (minus one since the actual link label is in link[0]).
-            link['substitutions'] = \
+            link['varlinks'] = \
                 dict(zip(substitutions, range(len(substitutions))))
 
 
-class LinkSubstitutionPhase2(Transform):
+class LinkSubstitutionPhase2(LinkSubstitutionTransform):
     # Apply this transformation right after substitutions have been applied.
     default_priority = 221
 
-    subst_pattern = r'\|([^|]+)\|'
-
-    def _replace(self, mapping, sub):
+    def _replace(self, mapping, sub, offset):
         def inner(match):
             name = match.group()
-            return sub[mapping[name[1:-1]] + 1]
+            return sub[mapping[name[1:-1]] + offset]
         return inner
 
     def apply(self):
@@ -83,16 +87,31 @@ class LinkSubstitutionPhase2(Transform):
         # We also remove those temporary nodes from the tree.
         subst_re = re.compile(self.subst_pattern)
 
+        # Apply the substitutions to hyperlink references.
         for link in self.document.traverse(nodes.reference):
-            substitutions = link.get('substitutions')
+            substitutions = link.get('varlinks')
             if not substitutions:
                 continue
 
-            replacer = self._replace(substitutions, link.children)
-            content = subst_re.sub(replacer, link[0])
+            replacer = self._replace(substitutions, link.children, 1)
             link['refuri'] = subst_re.sub(replacer, link['refuri'])
+            content = subst_re.sub(replacer, link[0])
+            # Cleanup the temporary nodes and recreate the node's content.
             link.clear()
+            del link['varlinks']
             link.append(nodes.Text(content))
+
+        # Do the same with hyperlink targets.
+        for link in self.document.traverse(nodes.target):
+            substitutions = link.get('varlinks')
+            if not substitutions:
+                continue
+
+            replacer = self._replace(substitutions, link.children, 0)
+            link['refuri'] = subst_re.sub(replacer, link['refuri'])
+            # Cleanup the temporary nodes.
+            link.clear()
+            del link['varlinks']
 
 
 def setup(app):
