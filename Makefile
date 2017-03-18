@@ -1,30 +1,38 @@
+PYTHON ?= python
 NAME := sphinxcontrib-varlinks
-VERSION := 0.0.0
+VERSION := $(shell "$(PYTHON)" setup.py -V)
 
 all: install
 
-install sdist bdist_wheel test:
-	python setup.py $@
+install test egg_info:
+	"$(PYTHON)" setup.py $@
 
-egg_info:
-	python setup.py $@
-	$(eval VERSION=$(shell grep ^Version: sphinxcontrib_varlinks.egg-info/PKG-INFO | awk '{print $$2}'))
+clean:
+	rm -rf dist/ build/ cover/
+
+sdist bdist_wheel: egg_info clean
+	"$(PYTHON)" setup.py $@
 
 dist: sdist bdist_wheel
 
-deb: sdist egg_info
+deb: sdist
 	rename 's/-([0-9.]+)\.tar\.gz$$/_$$1.orig.tar.gz/' dist/$(NAME)-$(VERSION).tar.gz
 	cd dist && tar xavf $(NAME)_$(VERSION).orig.tar.gz
 	cp -arf pkg/debian dist/$(NAME)-$(VERSION)/
+	sed -i -e 's/#pkg_version#/$(VERSION)/' dist/$(NAME)-$(VERSION)/debian/changelog
 	cd dist/$(NAME)-$(VERSION)/ && dpkg-buildpackage
 
 rpm: sdist
 	rpmbuild -ba pkg/python-$(NAME).spec      \
+	    --define 'pkg_version $(VERSION)'     \
 	    --define '_topdir ./dist'             \
 	    --define '_sourcedir ./dist'          \
 	    --define '_builddir ./build/BUILD'    \
 	    --define '_buildrootdir ./build/BUILDROOT'
 
-.PHONY: all install dist sdist bdist_wheel test deb rpm
+upload: dist
+	twine upload $(wildcard dist/*.tar.gz dist/*.whl)
+
+.PHONY: all install dist egg_info sdist bdist_wheel test deb rpm upload clean
 
 # ex:set ts=4 noet:
