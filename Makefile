@@ -1,6 +1,6 @@
 PYTHON ?= python
-NAME := sphinxcontrib-varlinks
-VERSION := $(shell "$(PYTHON)" setup.py -V)
+NAME := $(shell "$(PYTHON)" setup.py --name)
+VERSION := $(shell "$(PYTHON)" setup.py --version)
 
 all: install
 
