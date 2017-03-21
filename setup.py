@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
+import importlib
 from setuptools import setup, find_packages
-from sphinxcontrib import varlinks
+
+sys.path.insert(0, os.path.join(os.path.abspath('.'), 'sphinxcontrib'))
+varlinks = importlib.import_module('varlinks')
 
 long_desc = '''
 sphinxcontrib.varlinks is an extension for Sphinx that makes it
