@@ -18,7 +18,7 @@ from docutils.transforms import Transform
 
 __all__ = ['setup']
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 
 class LinkSubstitutionTransform(Transform):
@@ -76,8 +76,17 @@ class LinkSubstitutionPhase2(LinkSubstitutionTransform):
 
     def _replace(self, mapping, sub, offset):
         def inner(match):
+            # The match's group is the full substitution name (eg. "|foo|").
             name = match.group()
-            return sub[mapping[name[1:-1]] + offset]
+
+            # "sub" contains the actual replacement nodes,
+            # but for hyperlink references, the first element
+            # is actually the link's label, so we need to offset that.
+            res = sub[mapping[name[1:-1]] + offset]
+
+            # Lastly, we do not want the full node,
+            # only its text representation.
+            return res.astext()
         return inner
 
     def apply(self):
