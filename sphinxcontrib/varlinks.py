@@ -18,7 +18,7 @@ from docutils.transforms import Transform
 
 __all__ = ['setup']
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 
 
 class LinkSubstitutionTransform(Transform):
