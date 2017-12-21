@@ -1,6 +1,7 @@
 PYTHON ?= python
 NAME := $(shell "$(PYTHON)" setup.py --name)
 VERSION := $(shell "$(PYTHON)" setup.py --version)
+RPMBUILD_OPTIONS :=
 
 all: install
 
@@ -23,12 +24,14 @@ deb: sdist
 	cd dist/$(NAME)-$(VERSION)/ && dpkg-buildpackage
 
 rpm: sdist
-	rpmbuild -ba pkg/python-$(NAME).spec      \
-	    --define 'pkg_version $(VERSION)'     \
-	    --define '_topdir ./dist'             \
-	    --define '_sourcedir ./dist'          \
-	    --define '_builddir ./build/BUILD'    \
-	    --define '_buildrootdir ./build/BUILDROOT'
+	rpmbuild -ba pkg/python-$(NAME).spec                   \
+	    --define 'pkg_version $(VERSION)'                  \
+	    --define 'curdir $(CURDIR)'                        \
+	    --define '_topdir $(CURDIR)/dist'                  \
+	    --define '_sourcedir $(CURDIR)/dist'               \
+	    --define '_builddir $(CURDIR)/build/BUILD'         \
+	    --define '_buildrootdir $(CURDIR)/build/BUILDROOT' \
+	    $(RPMBUILD_OPTIONS)
 
 upload: dist
 	twine upload $(wildcard dist/*.tar.gz dist/*.whl)

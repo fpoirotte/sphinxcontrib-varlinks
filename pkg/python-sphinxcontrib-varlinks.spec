@@ -2,6 +2,10 @@
 %global with_python3 1
 %endif
 
+%if "%{_vendor}" == "debian"
+%global install_options --install-layout=deb
+%endif
+
 %global srcname sphinxcontrib-varlinks
 %global summary Sphinx extension that supports substitutions in hyperlinks
 %global common_desc \
@@ -17,19 +21,21 @@ Summary:    %{summary}
 
 License:    BSD
 URL:        https://github.com/fpoirotte/sphinxcontrib-varlinks
-Source0:    ../dist/%{srcname}-%{version}.tar.gz
+Source0:    %{curdir}/dist/%{srcname}-%{version}.tar.gz
 BuildArch:  noarch
 
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-sphinx
 BuildRequires:  python2-sphinx-testing
+BuildRequires:  python2-nose
 
 %if 0%{?with_python3}
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
 BuildRequires: python3-sphinx
 BuildRequires: python3-sphinx-testing
+BuildRequires: python3-nose
 %endif
 
 %description
@@ -53,67 +59,71 @@ Summary:       %{summary}
 
 
 %prep
-%setup -q -c
+%setup -q -n %{srcname}-%{version}
 
-cp -a %{srcname}-%{version} python3-%{srcname}-%{version}
+%if 0%{?with_python3}
+rm -rf %{py3dir}
+cp -a . %{py3dir}
+find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
+%endif # with_python3
+
+find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python}|'
 
 
 %build
 # Python 2 build
-pushd %{srcname}-%{version}
-%py2_build
-popd
+CFLAGS="$RPM_OPT_FLAGS" %{__python} setup.py build
 
 %if 0%{?with_python3}
 # Python 3 build
 pushd python3-%{srcname}-%{version}
-%py3_build
+CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py build
 popd
 %endif
 
 
 %install
+rm -rf %{buildroot}
+
 # Python 2 install
-pushd %{srcname}-%{version}
-%py2_install
-popd
+%{__python} setup.py install %{?install_options} --skip-build --root $RPM_BUILD_ROOT
 
 %if 0%{?with_python3}
 # Python 3 install
 pushd python3-%{srcname}-%{version}
-%py3_install
+%{__python3} setup.py install %{?install_options} --skip-build --root $RPM_BUILD_ROOT
 popd
 %endif
 
 
 %check
 # Test the python 2 build
-pushd %{srcname}-%{version}
-PYTHONPATH=$PWD nosetests-%{python2_version} -v
-popd
+%{__python} setup.py test
 
 %if 0%{?with_python3}
 # Test the python 3 build
-export LANG=en_US.UTF-8
 pushd python3-%{srcname}-%{version}
-PYTHONPATH=$PWD nosetests-%{python3_version} -v
+%{__python3} setup.py test
 popd
 %endif
 
 
 %files -n python2-%{srcname}
-%license %{srcname}-%{version}/LICENSE
-%{python2_sitelib}/sphinxcontrib/
-%{python2_sitelib}/sphinxcontrib_varlinks*
+%doc LICENSE
+%{python_sitelib}/sphinxcontrib/
+%{python_sitelib}/sphinxcontrib_varlinks*
 
 %if 0%{?with_python3}
 %files -n python3-%{srcname}
-%license python3-%{srcname}-%{version}/LICENSE
+%doc LICENSE
 %{python3_sitelib}/sphinxcontrib/
 %{python3_sitelib}/sphinxcontrib_varlinks*
 %endif
 
 %changelog
+* Thu Dec 22 2017 François Poirotte <clicky@erebot.net>
+- Improve compatibility with other OSes
+
 * Mon Mar 06 2017 François Poirotte <clicky@erebot.net>
 - Initial packaging
 
