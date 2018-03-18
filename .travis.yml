@@ -19,6 +19,7 @@ env:
   - SPHINX=1.4.9
   - SPHINX=1.5.3
   - SPHINX=1.6.5
+  - SPHINX=1.7.1
 
 notifications:
     email: false
