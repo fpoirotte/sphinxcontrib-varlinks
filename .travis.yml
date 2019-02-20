@@ -4,10 +4,10 @@ sudo: false
 
 python:
   - 2.7
-  - 3.3
   - 3.4
   - 3.5
   - 3.6
+  - 3.7
   - nightly
 
 matrix:
@@ -15,11 +15,13 @@ matrix:
   - python: nightly
 
 env:
-  - SPHINX=1.3.6
-  - SPHINX=1.4.9
-  - SPHINX=1.5.3
-  - SPHINX=1.6.5
-  - SPHINX=1.7.1
+  - SPHINX=>=1.3,<1.4dev
+  - SPHINX=>=1.4,<1.5dev
+  - SPHINX=>=1.5,<1.6dev
+  - SPHINX=>=1.6,<1.7dev
+  - SPHINX=>=1.7,<1.7dev
+  - SPHINX=>=1.8,<1.9dev
+  - SPHINX=
 
 notifications:
     email: false
@@ -35,7 +37,7 @@ branches:
 
 install:
   - "pip install sphinx-testing" # required for tests
-  - "pip install Sphinx==$SPHINX"
+  - "pip install Sphinx$SPHINX"
   - "pip install ."
   - "if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pip install coveralls check-manifest flake8; fi"
 
